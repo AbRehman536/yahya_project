@@ -30,6 +30,15 @@ class AppBarScreen extends StatelessWidget {
           Icon(Icons.bookmark,color: Colors.yellow,),
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 0,
+        tooltip: "Add",
+        backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          label: Text("Add"),
+          onPressed: (){},
+        icon: Icon(Icons.add),
+      ),
     );
   }
 }
