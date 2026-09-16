@@ -5,6 +5,8 @@ import 'package:yahya_project/screens/home/beverages.dart';
 import 'package:yahya_project/screens/home/explore.dart';
 import 'package:yahya_project/screens/home/favorite.dart';
 import 'package:yahya_project/screens/home/filter.dart';
+import 'package:yahya_project/screens/start_screens/on_boarding.dart';
+import 'package:yahya_project/screens/start_screens/splash_screen.dart';
 
 void main() {
   runApp(
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
 
-      home: AppBarScreen(),
+      home: OnBoardingScreen(),
     );
   }
 }
