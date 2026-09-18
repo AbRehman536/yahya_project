@@ -6,6 +6,7 @@ import 'package:yahya_project/screens/home/beverages.dart';
 import 'package:yahya_project/screens/home/explore.dart';
 import 'package:yahya_project/screens/home/favorite.dart';
 import 'package:yahya_project/screens/home/filter.dart';
+import 'package:yahya_project/screens/profile/profile_screen.dart';
 import 'package:yahya_project/screens/start_screens/on_boarding.dart';
 import 'package:yahya_project/screens/start_screens/splash_screen.dart';
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
 
-      home: LoginScreen(),
+      home: ProfileScreen(),
     );
   }
 }

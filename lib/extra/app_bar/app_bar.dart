@@ -39,6 +39,15 @@ class AppBarScreen extends StatelessWidget {
           onPressed: (){},
         icon: Icon(Icons.add),
       ),
+      body: Row(
+        mainAxisAlignment: .spaceBetween,
+        children: [
+          Icon(Icons.favorite),
+          Icon(Icons.favorite),
+          Icon(Icons.favorite),
+          Icon(Icons.favorite),
+        ],
+      ),
     );
   }
 }
