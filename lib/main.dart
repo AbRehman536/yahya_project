@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
 
-      home: ProfileScreen(),
+      home: ExploreScreen(),
     );
   }
 }
