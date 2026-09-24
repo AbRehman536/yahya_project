@@ -109,7 +109,155 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   );
                 },),
             ),
-            CustomButton(buttonLabel: "Go to Check out", onPressed: (){})
+            CustomButton(buttonLabel: "Go to Check out", onPressed: (){
+              showModalBottomSheet(
+                isDismissible: false,
+                  context: context,
+                builder: (BuildContext context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: .spaceBetween,
+                            children: [
+                              Text("Checkout"),
+                              IconButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, icon:  Icon(Icons.close))
+
+                            ],
+                          ),
+                          ListTile(
+                            title: Text("Delivery"),
+                            trailing: Row(
+                              mainAxisSize: .min,
+                              children: [
+                                Text("Select Method"),
+                                Icon(Icons.arrow_forward_ios_sharp)
+                              ],
+                            ),
+                          ),
+                          Divider(height: 0.5,color: AppColors.greyColor,),
+                          ListTile(
+                            title: Text("Payment"),
+                            trailing: Row(
+                              mainAxisSize: .min,
+                              children: [
+                                Text("Select Method"),
+                                Icon(Icons.arrow_forward_ios_sharp)
+                              ],
+                            ),
+                          ),
+                          Divider(height: 0.5,color: AppColors.greyColor,),
+                          ListTile(
+                            title: Text("Promo Code"),
+                            trailing: Row(
+                              mainAxisSize: .min,
+                              children: [
+                                Text("Pick discount"),
+                                Icon(Icons.arrow_forward_ios_sharp)
+                              ],
+                            ),
+                          ),
+                          Divider(height: 0.5,color: AppColors.greyColor,),
+                          ListTile(
+                            title: Text("Total Cost"),
+                            trailing: Row(
+                              mainAxisSize: .min,
+                              children: [
+                                Text("\$13.97"),
+                                Icon(Icons.arrow_forward_ios_sharp)
+                              ],
+                            ),
+                          ),
+                          Divider(height: 0.5,color: AppColors.greyColor,),
+                          RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      text: "By placing an order to agree to our ",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: AppColors.greyColor
+                                    )
+                                  ),
+                                  TextSpan(
+                                      text: "Terms",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.darkColor
+                                      )
+                                  ),
+                                  TextSpan(
+                                      text: "And",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: AppColors.greyColor
+                                      )
+                                  ),
+                                  TextSpan(
+                                      text: "Conditions",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.darkColor
+                                      )
+                                  ),
+                                ],
+
+                              ),
+                          ),
+                          CustomButton(
+                              buttonLabel: "Place Order",
+                              onPressed: (){
+                                showDialog(
+                                  barrierDismissible: false,
+                                    context: context,
+                                  builder: (BuildContext context) {
+                                      return
+                                          Dialog(
+                                            child: SizedBox(
+                                              height: 600,
+                                              width: 364,
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(16.0),
+                                                child: Column(
+                                                  children: [
+                                                    GestureDetector(
+                                                        onTap: (){
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Icon(Icons.close)),
+                                                    Image.asset(AppAssets.dialogImage,width: 222,height: 222,),
+                                                    Text("Oops, Order Failed"),
+                                                    Text("Something went wrong"),
+                                                    CustomButton(buttonLabel: "Please Try Again", onPressed: (){}),
+                                                    TextButton(onPressed: (){
+                                                      Navigator.pop(context);
+                                                    }, child: Text("Back to home"))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                      //   AlertDialog(
+                                      //   title: Text("Thank You!"),
+                                      //   content: Text("Order Failed"),
+                                      //   actions: [
+                                      //     TextButton(onPressed: (){}, child: Text("Try Again")),
+                                      //     TextButton(onPressed: (){}, child: Text("Back to Home")),
+                                      //   ],
+                                      // );
+                                  },
+                                    );
+                              })
+                        ],
+                      ),
+                    );
+                }, );
+            })
           ],
         ),
       ),
