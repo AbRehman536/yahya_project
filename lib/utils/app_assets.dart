@@ -10,6 +10,9 @@ class AppAssets {
   static String can1Image = "assets/images/can1.png";
   static String cart1Image = "assets/images/cart1.png";
   static String dialogImage = "assets/images/dialogimage.png";
+  static String onBoarding1 = "assets/images/onBoarding1.png";
+  static String onBoarding2 = "assets/images/onBoarding2.png";
+  static String onBoarding3 = "assets/images/onBoarding3.png";
 
 
   static String carousel1Image = "https://img.magnific.com/free-photo/variety-organic-vegetables-supermarket_53876-138173.jpg?semt=ais_hybrid&w=740&q=80";

@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:yahya_project/extra/app_bar/app_bar.dart';
 import 'package:yahya_project/extra/app_bar/tab_bar.dart';
+import 'package:yahya_project/extra/pageView.dart';
 import 'package:yahya_project/screens/auth/login_screen.dart';
 import 'package:yahya_project/screens/home/beverages.dart';
 import 'package:yahya_project/screens/home/bottom_bar.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
 
-      home: TabBarScreen(),
+      home: PageViewScreen(),
     );
   }
 }
