@@ -1,5 +1,7 @@
 
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:yahya_project/screens/start_screens/on_boarding.dart';
 import 'package:yahya_project/utils/app_assets.dart';
@@ -14,7 +16,12 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-
+  void initState(){
+    super.initState();
+    Timer(Duration(seconds: 3), (){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> OnBoardingScreen()));
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

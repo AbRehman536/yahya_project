@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yahya_project/screens/auth/login_screen.dart';
 import 'package:yahya_project/utils/app_assets.dart';
 import 'package:yahya_project/utils/app_colors.dart';
 import 'package:yahya_project/widgets/custom_button.dart';
@@ -48,7 +49,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             left: 20,
             child: CustomButton(
                 buttonLabel: "Get Started",
-                onPressed: (){}),
+                onPressed: (){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+                }),
           )
         ],
       ),
