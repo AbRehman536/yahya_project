@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yahya_project/models/product_model.dart';
 import 'package:yahya_project/utils/app_assets.dart';
 import 'package:yahya_project/utils/app_colors.dart';
@@ -65,7 +66,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding:  EdgeInsets.all(15.sp),
         child: Column(
           children: [
             TextField(
@@ -75,42 +76,43 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 hint: Text("Search Store"),
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
-                  borderRadius: .circular(15),
+                  borderRadius: .circular(15.r),
                   borderSide: .none
                 )
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: 15.h,),
+            const Spacer(),
             Expanded(
               child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    mainAxisExtent: 189
+                      crossAxisSpacing: 10.w,
+                      mainAxisSpacing: 10.h,
+                    mainAxisExtent: 189.h
                   ),
                 itemCount: productList.length,
                 itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      height: 189,
-                      width: 174,
+                      height: 189.h,
+                      width: 174.w,
                       decoration: BoxDecoration(
                         color: productList[index].color,
-                        borderRadius: .circular(18),
+                        borderRadius: .circular(18.r),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding:  EdgeInsets.all(15.sp),
                         child: Column(
                           mainAxisAlignment: .center,
                           crossAxisAlignment: .center,
                           children: [
                             Image.asset(productList[index].image.toString(),
-                            width: 111,height: 74,),
-                            SizedBox(height: 20,),
+                            width: 100.w,height: 70.h,),
+                            SizedBox(height: 20.h,),
                             Text(productList[index].title.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w800,
                               color: AppColors.darkColor
                             ),),

@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yahya_project/screens/start_screens/on_boarding.dart';
 import 'package:yahya_project/utils/app_assets.dart';
 import 'package:yahya_project/utils/app_colors.dart';
@@ -16,18 +17,18 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState(){
-    super.initState();
-    Timer(Duration(seconds: 3), (){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> OnBoardingScreen()));
-    });
-  }
+  // void initState(){
+  //   super.initState();
+  //   Timer(Duration(seconds: 3), (){
+  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> OnBoardingScreen()));
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: Center(
-        child: Image.asset(AppAssets.splashLogo,width: 267.42, height: 68.61,),
+        child: Image.asset(AppAssets.splashLogo,width: 267.42.w, height: 68.61.h,),
       ),
     );
   }

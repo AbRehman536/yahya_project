@@ -1,5 +1,8 @@
+
+
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yahya_project/extra/app_bar/app_bar.dart';
 import 'package:yahya_project/extra/app_bar/tab_bar.dart';
 import 'package:yahya_project/extra/date_time_picker.dart';
@@ -32,15 +35,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return ScreenUtilInit(
+      designSize: const Size(375,812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child){
+        return  MaterialApp(
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          // Device Preview configuration
+          useInheritedMediaQuery: true,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
 
-      // Device Preview configuration
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-
-      home: SplashScreen(),
+          home: SplashScreen(),
+        );
+      },
     );
   }
 }
