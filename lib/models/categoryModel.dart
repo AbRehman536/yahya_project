@@ -12,12 +12,14 @@ class CategoryModel {
   final String? docId;
   final String? categoryName;
   final String? categoryImage;
+  final bool? stock;
   final int? createdAt;
 
   CategoryModel({
     this.docId,
     this.categoryName,
     this.categoryImage,
+    this.stock,
     this.createdAt,
   });
 
@@ -25,6 +27,7 @@ class CategoryModel {
     docId: json["docId"],
     categoryName: json["categoryName"],
     categoryImage: json["categoryImage"],
+    stock: json["stock"],
     createdAt: json["createdAt"],
   );
 
@@ -32,6 +35,7 @@ class CategoryModel {
     "docId": docId,
     "categoryName": categoryName,
     "categoryImage": categoryImage,
+    "stock": stock,
     "createdAt": createdAt,
   };
 }

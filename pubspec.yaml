@@ -41,7 +41,11 @@ dependencies:
   intl: ^0.20.3
   pinput: ^6.0.2
   flutter_screenutil: ^5.9.3
-
+  # Firebase Backend
+  cloud_firestore:
+  firebase_core:
+  firebase_auth:
+  provider:
 
 dev_dependencies:
   flutter_test:
