@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "249871003675",
+    "project_id": "yahya-project-facaf",
+    "storage_bucket": "yahya-project-facaf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249871003675:android:032000debc5219bfba48be",
+        "android_client_info": {
+          "package_name": "com.example.yahya_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJ9eaDuDqt8Fa6Ge-fYYhH8dZFdF0fDmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

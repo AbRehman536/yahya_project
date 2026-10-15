@@ -26,13 +26,7 @@ class CategoryService {
         .doc(docId)
         .delete();
   }
-  ///Mark Category
-  Future markStockCategory(CategoryModel model)async{
-    return await FirebaseFirestore.instance
-        .collection(categoryCollection)
-        .doc(model.docId)
-        .update({"stock" : model.stock});
-  }
+
   ///Get All Category
   Stream<List<CategoryModel>> getAllCategory(){
     return FirebaseFirestore.instance
@@ -42,24 +36,5 @@ class CategoryService {
         .map((categoryJson) => CategoryModel.fromJson(categoryJson.data()))
     .toList());
   }
-  ///Get In Stock Category
-  Stream<List<CategoryModel>> getInStockCategory(){
-    return FirebaseFirestore.instance
-        .collection(categoryCollection)
-        .where("stock", isEqualTo: true)
-        .snapshots()
-        .map((categoryList) => categoryList.docs
-        .map((categoryJson) => CategoryModel.fromJson(categoryJson.data()))
-        .toList());
-  }
-  ///Get Out of Stock Category
-  Stream<List<CategoryModel>> getOutStockCategory(){
-    return FirebaseFirestore.instance
-        .collection(categoryCollection)
-        .where("stock", isEqualTo: false)
-        .snapshots()
-        .map((categoryList) => categoryList.docs
-        .map((categoryJson) => CategoryModel.fromJson(categoryJson.data()))
-        .toList());
-  }
+
 }

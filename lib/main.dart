@@ -1,6 +1,7 @@
 
 
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yahya_project/extra/app_bar/app_bar.dart';
@@ -9,6 +10,8 @@ import 'package:yahya_project/extra/date_time_picker.dart';
 import 'package:yahya_project/extra/menu.dart';
 import 'package:yahya_project/extra/pageView.dart';
 import 'package:yahya_project/extra/settings_screen.dart';
+import 'package:yahya_project/firebase_options.dart';
+import 'package:yahya_project/screens/admin/create_product.dart';
 import 'package:yahya_project/screens/auth/login_screen.dart';
 import 'package:yahya_project/screens/home/beverages.dart';
 import 'package:yahya_project/screens/home/bottom_bar.dart';
@@ -21,7 +24,11 @@ import 'package:yahya_project/screens/profile/profile_screen.dart';
 import 'package:yahya_project/screens/start_screens/on_boarding.dart';
 import 'package:yahya_project/screens/start_screens/splash_screen.dart';
 
-void main() {
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   runApp(
     DevicePreview(
       enabled: true,
@@ -41,14 +48,14 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child){
         return  MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Online Grocery App',
           debugShowCheckedModeBanner: false,
           // Device Preview configuration
           useInheritedMediaQuery: true,
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
 
-          home: SplashScreen(),
+          home: CreateProduct(),
         );
       },
     );
