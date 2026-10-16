@@ -17,6 +17,8 @@ class _CreateProductState extends State<CreateProduct> {
   TextEditingController priceController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController nutritionController = TextEditingController();
+
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,22 +65,42 @@ class _CreateProductState extends State<CreateProduct> {
               ),
             ),
             SizedBox(height: 10,),
-            CustomButton(
+            isLoading ? Center(child: CircularProgressIndicator(),)
+            :CustomButton(
                 buttonLabel: "Create Product",
                 onPressed: ()async{
                   try{
+                    isLoading = true;
+                    setState(() {});
                     await ProductService().createProduct(
                       ProductModel(
                         productName: nameController.text,
-                        productWeight: int.parse(weightController.text),
+                        productWeight: weightController.text,
                         productNutrition: int.parse(nutritionController.text),
-                        productPrice: int.parse(priceController.text),
+                        productPrice: double.parse(priceController.text),
                         productDetails: detailsController.text,
                         productStock: true,
                         createdAt: DateTime.now().millisecondsSinceEpoch
                       )
-                    );
+                    ).then((value){
+                      isLoading = false;
+                      setState(() {});
+                      showDialog(context: context, builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Successful"),
+                          content: Text("Product Add Successfully"),
+                          actions: [
+                            TextButton(onPressed: (){
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            }, child: Text("Okay"))
+                          ],
+                        );
+                      },);
+                    });
                   }catch(e){
+                    isLoading = false;
+                    setState(() {});
                     ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text(e.toString())));
                   }

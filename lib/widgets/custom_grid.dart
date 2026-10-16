@@ -1,52 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:yahya_project/utils/app_colors.dart';
+import 'package:yahya_project/services/productService.dart';
 
-class CustomGrid extends StatelessWidget {
+import '../utils/app_colors.dart';
+
+class CustomContainer extends StatelessWidget {
   final String image;
   final String title;
-  final String description;
+  final String subTitle;
   final double price;
-  const CustomGrid({
-    super.key, required this.image, required this.title, required this.description, required this.price});
+
+  final String? productID;
+
+
+  const CustomContainer({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.subTitle,
+    required this.price,
+     this.productID,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 173,
+      height: 300,
       decoration: BoxDecoration(
-        borderRadius: .circular(18),
-        color: AppColors.secondaryColor,
-        border: Border.all(
-          color: AppColors.greyColor,
-          width: 0.4
-        )
+        borderRadius: .circular(15),
+        border: Border.all(width: 0.4, color: AppColors.greyColor),
       ),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
+          crossAxisAlignment: .start,
           children: [
-            Image.asset(image,width: 90,height: 90,),
-            SizedBox(height: 5,),
-            Text(title,style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: AppColors.darkColor
-            ),),
-            SizedBox(height: 5,),
-            Text(description,style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w300,
-              color: AppColors.greyColor
-            ),),
-            SizedBox(height: 5,),
+            Align(
+              alignment: AlignmentGeometry.center,
+              child: Image.asset(image, width: 89, height: 79),
+            ),
+            SizedBox(height: 15),
+            Text(
+              title,
+              style: TextStyle(
+                color: AppColors.darkColor,
+                fontWeight: FontWeight.w900,
+                fontSize: 16,
+              ),
+            ),
+            Text(
+              "$subTitle, Price ",
+              textAlign: .start,
+              style: TextStyle(
+                color: AppColors.greyColor,
+                fontWeight: FontWeight.w300,
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: .spaceBetween,
               children: [
-                Text("\$$price"),
-                FloatingActionButton(
+                Text("\$$price",style: TextStyle(
+                    color: AppColors.darkColor,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 16
+                ),),
+                FloatingActionButton.small(
+                  onPressed: () {},
                   backgroundColor: AppColors.primaryColor,
-                  foregroundColor: AppColors.secondaryColor,
-                  onPressed: (){},child: Icon(Icons.add),)
+                  elevation: 0,
+                  foregroundColor: Colors.white,
+                  child: Icon(Icons.add),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                IconButton(onPressed: ()async{
+                  try{
+                    await ProductService().deleteProduct(
+                      productID!
+                    );
+                  }catch(e){
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(e.toString())));
+                  }
+
+                }, icon: Icon(Icons.delete))
               ],
             )
           ],

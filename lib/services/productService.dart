@@ -7,9 +7,13 @@ class ProductService {
 
   ///Create Product
   Future createProduct(ProductModel model)async{
+    DocumentReference docRef = await FirebaseFirestore.instance
+    .collection(ProductCollection)
+    .doc();
     return await FirebaseFirestore.instance
         .collection(ProductCollection)
-        .add(model.toJson());
+        .doc(docRef.id)
+        .set(model.toJson(docRef.id));
   }
   ///Update Product
   Future updateProduct(ProductModel model)async{
@@ -39,6 +43,7 @@ class ProductService {
   Stream<List<ProductModel>> getAllProduct(){
     return FirebaseFirestore.instance
         .collection(ProductCollection)
+        //.orderBy("createdAt" , descending: false )
         .snapshots()
         .map((ProductList) => ProductList.docs
         .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))

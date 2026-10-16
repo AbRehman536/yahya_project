@@ -13,6 +13,12 @@ class AppAssets {
   static String onBoarding1 = "assets/images/onBoarding1.png";
   static String onBoarding2 = "assets/images/onBoarding2.png";
   static String onBoarding3 = "assets/images/onBoarding3.png";
+  static String bananaImage = "assets/images/banana.png";
+
+  static String slide3Image = "https://unsplash.com/photos/a-display-in-a-grocery-store-filled-with-lots-of-fruits-and-vegetables-N7jlXYMdiFQ";
+  static String slide2Image = "https://images.unsplash.com/photo-1553546895-531931aa1aa8?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  static String slide1Image = "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
 
 
   static String carousel1Image = "https://img.magnific.com/free-photo/variety-organic-vegetables-supermarket_53876-138173.jpg?semt=ais_hybrid&w=740&q=80";
