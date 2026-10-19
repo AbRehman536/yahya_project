@@ -210,11 +210,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // );
                                 },
                                 child: CustomContainer(
-                                   productID: productList[index].docId.toString(),
-                                    image: exclusiveList[index].image.toString(),
+                                    product: productList[index],
+                                    productID: productList[index].docId.toString(),
+                                    image: (productList[index].productImage != null && productList[index].productImage!.isNotEmpty)
+                                        ? productList[index].productImage!
+                                        : exclusiveList[index % exclusiveList.length].image.toString(),
                                     title: productList[index].productName.toString(),
                                     subTitle: productList[index].productWeight.toString(),
-                                    price: double.parse(productList[index].productPrice.toString())),
+                                    price: double.tryParse(productList[index].productPrice.toString()) ?? 0.0),
                               ),
                             );
                           }),
