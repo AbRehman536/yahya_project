@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yahya_project/models/product_model.dart';
 import 'package:yahya_project/screens/admin/create_product.dart';
+import 'package:yahya_project/screens/home/product_details.dart';
 import 'package:yahya_project/services/productService.dart';
 
 import '../../utils/app_assets.dart';
@@ -210,6 +211,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // );
                                 },
                                 child: CustomContainer(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailScreen(model: productList[index],)));
+                                  },
                                     product: productList[index],
                                     productID: productList[index].docId.toString(),
                                     image: (productList[index].productImage != null && productList[index].productImage!.isNotEmpty)
