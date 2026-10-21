@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:yahya_project/models/categoryModel.dart';
 import 'package:yahya_project/models/product_model.dart';
+import 'package:yahya_project/services/categoryService.dart';
 import 'package:yahya_project/services/cloudinaryService.dart';
 import 'package:yahya_project/services/productService.dart';
 import 'package:yahya_project/widgets/custom_appbar.dart';
@@ -22,6 +24,8 @@ class _CreateProductState extends State<CreateProduct> {
   TextEditingController weightController = TextEditingController();
   TextEditingController nutritionController = TextEditingController();
 
+  List<CategoryModel> categoryList = [];
+  CategoryModel? selectedCategory;
   XFile? selectedImage;
   bool isLoading = false;
 
@@ -86,6 +90,16 @@ class _CreateProductState extends State<CreateProduct> {
     );
   }
 
+  @override
+  void initState(){
+    super.initState();
+    CategoryService().getCategory()
+        .then((value){
+          setState(() {
+            categoryList = value;
+          });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,6 +178,20 @@ class _CreateProductState extends State<CreateProduct> {
                 ),
                 keyboardType: TextInputType.number,
               ),
+              const SizedBox(height: 10),
+              DropdownButtonFormField(
+                hint: Text("Select Category"),
+                  value: selectedCategory,
+                  items: categoryList.map((category){
+                    return DropdownMenuItem(
+                      value: category,
+                        child: Text(category.categoryName.toString()));
+                  }).toList(),
+                  onChanged: (value){
+                  setState(() {
+                    selectedCategory = value;
+                  });
+                  }),
               const SizedBox(height: 20),
               isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -184,6 +212,7 @@ class _CreateProductState extends State<CreateProduct> {
 
                           await ProductService().createProduct(
                             ProductModel(
+                              categoryID: selectedCategory!.docId.toString(),
                               productName: nameController.text,
                               productImage: imageUrl,
                               productWeight: weightController.text,

@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context, child){
                     List<ProductModel> productList = context.watch<List<ProductModel>>();
                     return SizedBox(
-                      height: 300,
+                      height: 320,
                       child: ListView.builder(
                           itemCount: productList.length,
                           scrollDirection: Axis.horizontal,
@@ -211,6 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // );
                                 },
                                 child: CustomContainer(
+                                  stock: productList[index].productStock,
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailScreen(model: productList[index],)));
                                   },

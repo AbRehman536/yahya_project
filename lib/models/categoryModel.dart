@@ -4,10 +4,6 @@
 
 import 'dart:convert';
 
-CategoryModel categoryModelFromJson(String str) => CategoryModel.fromJson(json.decode(str));
-
-String categoryModelToJson(CategoryModel data) => json.encode(data.toJson());
-
 class CategoryModel {
   final String? docId;
   final String? categoryName;
@@ -31,8 +27,8 @@ class CategoryModel {
     createdAt: json["createdAt"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "docId": docId,
+  Map<String, dynamic> toJson(String categoryID) => {
+    "docId": categoryID,
     "categoryName": categoryName,
     "categoryImage": categoryImage,
     "stock": stock,

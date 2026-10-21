@@ -6,6 +6,7 @@ import 'dart:convert';
 
 class ProductModel {
   final String? docId;
+  final String? categoryID;
   final String? productImage;
   final String? productName;
   final String? productWeight;
@@ -17,6 +18,7 @@ class ProductModel {
 
   ProductModel({
     this.docId,
+    this.categoryID,
     this.productImage,
     this.productName,
     this.productWeight,
@@ -29,6 +31,7 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
     docId: json["docID"],
+    categoryID: json["categoryID"],
     productImage: json["productImage"],
     productName: json["productName"],
     productWeight: json["productWeight"],
@@ -41,6 +44,7 @@ class ProductModel {
 
   Map<String, dynamic> toJson(String productID) => {
     "docID": productID,
+    "categoryID": categoryID,
     "productImage": productImage,
     "productName": productName,
     "productWeight": productWeight,

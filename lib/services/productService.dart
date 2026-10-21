@@ -33,11 +33,11 @@ class ProductService {
         .delete();
   }
   ///Mark Product
-  Future markStockProduct(ProductModel model)async{
+  Future markStockProduct(String productID, bool productStock)async{
     return await FirebaseFirestore.instance
         .collection(ProductCollection)
-        .doc(model.docId)
-        .update({"productStock" : model.productStock});
+        .doc(productID)
+        .update({"productStock" : productStock});
   }
   ///Get All Product
   Stream<List<ProductModel>> getAllProduct(){
@@ -64,6 +64,16 @@ class ProductService {
     return FirebaseFirestore.instance
         .collection(ProductCollection)
         .where("productStock", isEqualTo: false)
+        .snapshots()
+        .map((ProductList) => ProductList.docs
+        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .toList());
+  }
+  ///Get Products By Category ID
+  Stream<List<ProductModel>> getProductsByCategoryID(String categoryID){
+    return FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .where("categoryID", isEqualTo: categoryID)
         .snapshots()
         .map((ProductList) => ProductList.docs
         .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))

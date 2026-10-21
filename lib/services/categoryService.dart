@@ -7,9 +7,13 @@ class CategoryService {
 
   ///Create Category
   Future createCategory(CategoryModel model)async{
+    DocumentReference docRef = await FirebaseFirestore.instance
+        .collection(categoryCollection)
+        .doc();
     return await FirebaseFirestore.instance
         .collection(categoryCollection)
-        .add(model.toJson());
+        .doc(docRef.id)
+        .set(model.toJson(docRef.id));
   }
   ///Update Category
   Future updateCategory(CategoryModel model)async{
@@ -33,6 +37,15 @@ class CategoryService {
         .collection(categoryCollection)
         .snapshots()
         .map((categoryList) => categoryList.docs
+        .map((categoryJson) => CategoryModel.fromJson(categoryJson.data()))
+    .toList());
+  }
+  ///Get Category
+  Future<List<CategoryModel>> getCategory(){
+    return FirebaseFirestore.instance
+        .collection(categoryCollection)
+        .get()
+        .then((categoryList) => categoryList.docs
         .map((categoryJson) => CategoryModel.fromJson(categoryJson.data()))
     .toList());
   }
