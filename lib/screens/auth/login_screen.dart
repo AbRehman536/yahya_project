@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yahya_project/screens/auth/signup_screen.dart';
+import 'package:yahya_project/screens/home/bottom_bar.dart';
+import 'package:yahya_project/screens/home/home_screen.dart';
+import 'package:yahya_project/services/authService.dart';
 import 'package:yahya_project/utils/app_assets.dart';
 import 'package:yahya_project/utils/app_colors.dart';
 import 'package:yahya_project/widgets/custom_button.dart';
@@ -12,6 +16,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: AppColors.greyColor
               ),),
             CustomField(
+              controller: emailController,
                 hintText: "abdullah@gmail.com",
             ),
             SizedBox(height: 10,),
@@ -58,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: AppColors.greyColor
               ),),
             CustomField(
+              controller: passwordController,
                 hintText: "*********",
               suffixIcon: Icon(Icons.visibility_off),
             ),
@@ -72,11 +82,43 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),),
             ),
             SizedBox(height: 10,),
+            isLoading ? Center(child: CircularProgressIndicator(),):
             Align(
               alignment: Alignment.center,
               child: CustomButton(
                   buttonLabel: "Login",
-                  onPressed: (){}),
+                  onPressed: ()async{
+                    try{
+                      isLoading = true;
+                      setState(() {});
+                      await AuthService().loginUser(
+                          email: emailController.text,
+                          password: passwordController.text)
+                      .then((value){
+                        if(value.emailVerified == true){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> BottomBarScreen()));
+                        }
+                        else{
+                          showDialog(context: context, builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Text("Kindly Verify Your Email"),
+                              actions: [
+                                TextButton(onPressed: (){
+                                  Navigator.pop(context);
+                                }, child: Text("Okay"))
+                              ],
+                            );
+                          },);
+                        }
+                      });
+                    }catch(e){
+                      isLoading = false;
+                      setState(() {});
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(e.toString())));
+
+                    }
+                  }),
             ),
             SizedBox(height: 10,),
             Row(
@@ -88,7 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.w700,
                       color: AppColors.darkColor
                   ),),
-                TextButton(onPressed: (){}, child: Text("Sign Up",
+                TextButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> SignupScreen()));
+                }, child: Text("Sign Up",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

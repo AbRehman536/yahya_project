@@ -6,11 +6,16 @@ class CustomField extends StatelessWidget {
   final String? label;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  const CustomField({super.key, required this.hintText, this.label, this.prefixIcon, this.suffixIcon});
+  final TextEditingController? controller;
+  const CustomField({
+    super.key,
+    required this.hintText,
+    this.label, this.prefixIcon, this.suffixIcon, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         hint: Text(hintText),
         prefixIcon: prefixIcon,

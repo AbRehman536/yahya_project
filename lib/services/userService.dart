@@ -1,0 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../models/UserModel.dart';
+
+
+class UserService {
+
+  String UserCollection = "User Collection";
+
+  ///Create User
+  Future createUser(UserModel model)async{
+    return await FirebaseFirestore.instance
+        .collection(UserCollection)
+        .doc(model.docId)
+        .set(model.toJson());
+  }
+  ///Update User
+  Future updateUser(UserModel model)async{
+    return await FirebaseFirestore.instance
+        .collection(UserCollection)
+        .doc(model.docId)
+        .update({"userName" : model.userName,
+      "userImage" : model.userImage});
+  }
+  ///Delete User
+  Future deleteUser(String userID)async{
+    return await FirebaseFirestore.instance
+        .collection(UserCollection)
+        .doc(userID)
+        .delete();
+  }
+
+  ///Get User By ID
+  Stream<UserModel> getUserByID(String userID){
+    return FirebaseFirestore.instance
+        .collection(UserCollection)
+        .doc(userID)
+        .snapshots()
+        .map((userJson) => UserModel.fromJson(userJson.data()!));
+  }
+}
