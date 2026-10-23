@@ -211,6 +211,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // );
                                 },
                                 child: CustomContainer(
+                                  addCart: (){
+                                    ProductService().addToCart(
+                                        userID: "101",
+                                        productID: productList[index].docId.toString())
+                                        .then((val){
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(content: Text("Product Add To Cart")));
+                                    });
+                                  },
                                   stock: productList[index].productStock,
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailScreen(model: productList[index],)));

@@ -78,34 +78,43 @@ class _SignupScreenState extends State<SignupScreen> {
                 Icons.visibility_off_outlined
             ),),
             SizedBox(height: 10,),
-            Row(
+            RichText(
+                text: TextSpan(
               children: [
-                Text("By Continuing you agree to our",style: TextStyle(
+                TextSpan(
+                  text: "By Continuing you agree to our ",
+                  style: TextStyle(
+                      color: AppColors.greyColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500
+                  ),
+                ),
+                TextSpan(
+                  text: "Terms of Service ",
+                  style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600
+                  ),
+                ),
+                TextSpan(
+                  text: "and ",
+                    style: TextStyle(
                     color: AppColors.greyColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w500
-                ),),
-                TextButton(onPressed: (){}, child: Text("Terms of Service",style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500
-                ),)),
-              ],
-            ),
-            Row(
-              children: [
-                Text("and",style: TextStyle(
-                    color: AppColors.greyColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500
-                ),),
-                TextButton(onPressed: (){}, child: Text("Privacy Policy" , style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500
-                ),))
-              ],
-            ),
+                ),
+                ),
+                TextSpan(
+                  text: "Privacy Policy",
+                  style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600
+                  ),
+                )
+              ]
+            )),
             SizedBox(height: 20,),
             isLoading ? Center(child: CircularProgressIndicator(),):
             Align(

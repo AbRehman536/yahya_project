@@ -79,4 +79,34 @@ class ProductService {
         .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
         .toList());
   }
+  ///Get My Cart Products
+  Stream<List<ProductModel>> getMyCartProducts(String userID){
+    return FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .where("cart", arrayContains: userID)
+        .snapshots()
+        .map((ProductList) => ProductList.docs
+        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .toList());
+  }
+  ///Add to Cart
+  Future addToCart({
+    required String userID,
+    required String productID,
+})async{
+    return await FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .doc(productID)
+        .update({"cart": FieldValue.arrayUnion([userID])});
+  }
+  ///Remove From Cart
+  Future removeFromCart({
+    required String userID,
+    required String productID,
+})async{
+    return await FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .doc(productID)
+        .update({"cart": FieldValue.arrayRemove([userID])});
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yahya_project/models/product_model.dart';
+import 'package:yahya_project/services/productService.dart';
 import 'package:yahya_project/widgets/custom_button.dart';
 
 import '../../utils/app_assets.dart';
@@ -262,7 +263,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
               ),
               const SizedBox(height: 30),
-              CustomButton(buttonLabel: "Add To Basket", onPressed: () {}),
+              CustomButton(buttonLabel: "Add To Basket", onPressed: ()async {
+                await ProductService().addToCart(
+                    userID: "101",
+                    productID: widget.model.docId.toString());
+              }),
               const SizedBox(height: 20),
             ],
           ),

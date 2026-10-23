@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yahya_project/screens/auth/reset_password.dart';
 import 'package:yahya_project/screens/auth/signup_screen.dart';
 import 'package:yahya_project/screens/home/bottom_bar.dart';
 import 'package:yahya_project/screens/home/home_screen.dart';
@@ -74,12 +75,17 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 10,),
             Align(
               alignment: Alignment.centerRight,
-              child: Text("Forget Password?",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300,
-                    color: AppColors.darkColor
-                ),),
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ResetPasswordScreen()));
+                },
+                child: Text("Forget Password?",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
+                      color: AppColors.darkColor
+                  ),),
+              ),
             ),
             SizedBox(height: 10,),
             isLoading ? Center(child: CircularProgressIndicator(),):
@@ -95,6 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: emailController.text,
                           password: passwordController.text)
                       .then((value){
+
+                        isLoading = false;
+                        setState(() {});
                         if(value.emailVerified == true){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> BottomBarScreen()));
                         }
