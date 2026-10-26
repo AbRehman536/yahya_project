@@ -220,6 +220,8 @@ class _CreateProductState extends State<CreateProduct> {
                               productPrice: double.tryParse(priceController.text) ?? 0.0,
                               productDetails: detailsController.text,
                               productStock: true,
+                              exclusiveOffer: false,
+                              bestSelling: false,
                               createdAt: DateTime.now().millisecondsSinceEpoch,
                             ),
                           );

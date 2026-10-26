@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 10,),
               StreamProvider.value(
-                  value: ProductService().getAllProduct(),
+                  value: ProductService().getExclusiveProduct(),
                   initialData: [ProductModel()],
                   builder: (context, child){
                     List<ProductModel> productList = context.watch<List<ProductModel>>();
@@ -255,27 +255,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               SizedBox(height: 10,),
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-
-                    itemCount: sellingList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index){
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: GestureDetector(
-                          onTap: (){
-                           // Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailScreen()));
-                          },
-                          child: CustomContainer(
-                              image: sellingList[index].image.toString(),
-                              title: sellingList[index].title.toString(),
-                              subTitle: sellingList[index].subTitle.toString(),
-                              price: sellingList[index].price),
-                        ),
-                      );
-                    }),
+              StreamProvider.value(
+                value: ProductService().getBestSellingProduct(),
+                initialData: [ProductModel()],
+                builder: (context, child){
+                  List<ProductModel> productList = context.watch<List<ProductModel>>();
+                  return SizedBox(
+                    height: 320,
+                    child: ListView.builder(
+                        itemCount: productList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index){
+                          return Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: GestureDetector(
+                              onTap: (){
+                                // Navigator.push(context,
+                                //     MaterialPageRoute(builder: (context)=> ProductDetailScreen())
+                                // );
+                              },
+                              child: CustomContainer(
+                                  addCart: (){
+                                    ProductService().addToCart(
+                                        userID: "101",
+                                        productID: productList[index].docId.toString())
+                                        .then((val){
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(content: Text("Product Add To Cart")));
+                                    });
+                                  },
+                                  stock: productList[index].productStock,
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailScreen(model: productList[index],)));
+                                  },
+                                  product: productList[index],
+                                  productID: productList[index].docId.toString(),
+                                  image: (productList[index].productImage != null && productList[index].productImage!.isNotEmpty)
+                                      ? productList[index].productImage!
+                                      : exclusiveList[index % exclusiveList.length].image.toString(),
+                                  title: productList[index].productName.toString(),
+                                  subTitle: productList[index].productWeight.toString(),
+                                  price: double.tryParse(productList[index].productPrice.toString()) ?? 0.0),
+                            ),
+                          );
+                        }),
+                  );
+                },
               ),
               SizedBox(height: 10,),
               Row(
@@ -335,26 +360,52 @@ class _HomeScreenState extends State<HomeScreen> {
               // ),
               SizedBox(height: 10,),
 
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                    itemCount: lastList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index){
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: GestureDetector(
-                          onTap: (){
-                           // Navigator.push(context,MaterialPageRoute(builder: (context)=>ProductDetailScreen()));
-                          },
-                          child: CustomContainer(
-                              image: lastList[index].image.toString(),
-                              title: lastList[index].title.toString(),
-                              subTitle: lastList[index].subTitle.toString(),
-                              price: lastList[index].price),
-                        ),
-                      );
-                    }),
+              StreamProvider.value(
+                value: ProductService().getAllProduct(),
+                initialData: [ProductModel()],
+                builder: (context, child){
+                  List<ProductModel> productList = context.watch<List<ProductModel>>();
+                  return SizedBox(
+                    height: 320,
+                    child: ListView.builder(
+                        itemCount: productList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index){
+                          return Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: GestureDetector(
+                              onTap: (){
+                                // Navigator.push(context,
+                                //     MaterialPageRoute(builder: (context)=> ProductDetailScreen())
+                                // );
+                              },
+                              child: CustomContainer(
+                                  addCart: (){
+                                    ProductService().addToCart(
+                                        userID: "101",
+                                        productID: productList[index].docId.toString())
+                                        .then((val){
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(content: Text("Product Add To Cart")));
+                                    });
+                                  },
+                                  stock: productList[index].productStock,
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailScreen(model: productList[index],)));
+                                  },
+                                  product: productList[index],
+                                  productID: productList[index].docId.toString(),
+                                  image: (productList[index].productImage != null && productList[index].productImage!.isNotEmpty)
+                                      ? productList[index].productImage!
+                                      : exclusiveList[index % exclusiveList.length].image.toString(),
+                                  title: productList[index].productName.toString(),
+                                  subTitle: productList[index].productWeight.toString(),
+                                  price: double.tryParse(productList[index].productPrice.toString()) ?? 0.0),
+                            ),
+                          );
+                        }),
+                  );
+                },
               ),
 
             ],

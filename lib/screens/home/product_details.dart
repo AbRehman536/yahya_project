@@ -119,7 +119,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   "${widget.model.productWeight}, Price",
                   style: TextStyle(color: AppColors.greyColor),
                 ),
-                trailing: Icon(Icons.favorite_border, color: AppColors.greyColor),
+                trailing:
+                IconButton(onPressed: ()async{
+                  if(widget.model.favorite!.contains("101")){
+                    await ProductService().removeFromFavorite(
+                        userID: "101",
+                        productID: widget.model.docId.toString());
+                  }
+                  else{
+                    await ProductService().addToFavorite(
+                        userID: "101",
+                        productID: widget.model.docId.toString());
+                  }
+                }, icon:
+                Icon(widget.model.favorite!.contains("101") ? Icons.favorite : Icons.favorite_border,),)
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -261,6 +274,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     )
                   ],
                 ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Checkbox(
+                    value: widget.model.bestSelling ?? false,
+                    onChanged: (val) async {
+                      await ProductService().markBestProduct(
+                        widget.model.docId.toString(),
+                        val ?? false,
+                      );
+                    },
+                  ),
+
+                  Checkbox(
+                    value: widget.model.exclusiveOffer ?? false,
+                    onChanged: (val) async {
+                      await ProductService().markExclusiveOffer(
+                        widget.model.docId.toString(),
+                        val ?? false,
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: 30),
               CustomButton(buttonLabel: "Add To Basket", onPressed: ()async {

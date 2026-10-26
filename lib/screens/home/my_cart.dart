@@ -17,7 +17,40 @@ class MyCartScreen extends StatefulWidget {
 }
 
 class _MyCartScreenState extends State<MyCartScreen> {
+  Map<String, int> productQuantities = {};
 
+  int getQuantity(ProductModel product) {
+    return productQuantities[product.docId] ?? 1;
+  }
+
+  void _incrementProduct(ProductModel product) {
+    setState(() {
+      productQuantities[product.docId!] =
+          getQuantity(product) + 1;
+    });
+  }
+
+  void _decrementProduct(ProductModel product) {
+    setState(() {
+      int currentQuantity = getQuantity(product);
+
+      if (currentQuantity > 1) {
+        productQuantities[product.docId!] =
+            currentQuantity - 1;
+      }
+    });
+  }
+  double calculateTotalCost(List<ProductModel> products) {
+    double total = 0 ;
+
+    for(var product in products){
+      double price = (product.productPrice ?? 0).toDouble();
+      int quantity = getQuantity(product);
+
+      total += price * quantity;
+    }
+    return total;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +74,26 @@ class _MyCartScreenState extends State<MyCartScreen> {
                     child: ListView.builder(
                       itemCount: favoriteList.length,
                       itemBuilder: (BuildContext context, int index) {
+                        final product = favoriteList[index];
+                        final quantity = getQuantity(product);
+                        final productTotal = (product.productPrice ?? 0) * quantity ;
                         return ListTile(
-                          leading: Image.asset(favoriteList[index].productImage.toString()),
+                          leading:  favoriteList[index].productImage!.startsWith('http')
+                              ? Image.network(
+                            favoriteList[index].productImage.toString(),
+                            width: 40,
+                            height: 50,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.image_not_supported, size: 50),
+                          )
+                              : Image.asset(
+                            favoriteList[index].productImage.toString(),
+                            width: 40,
+                            height: 40,
+                            errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.image, size: 50),
+                          ),
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -62,10 +113,27 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Icon(Icons.remove),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        _decrementProduct(product);
+                                      },
+                                      icon: const Icon(Icons.remove),
+                                    ),
                                   )),
                               SizedBox(width: 5,),
-                              Text("1"),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 9,
+                                  vertical: 3,
+                                ),
+                                child: Text(
+                                  "$quantity",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ),
                               SizedBox(width: 5,),
                               Container(
                                   decoration: BoxDecoration(
@@ -77,7 +145,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
-                                    child: Icon(Icons.add),
+                                    child:  IconButton(
+                                      onPressed: () {
+                                        _incrementProduct(product);
+                                      },
+                                      icon: Icon(Icons.add, color: AppColors.primaryColor),
+                                    ),
                                   ))
                             ],
                           ),
@@ -90,9 +163,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         userID: "101",
                                         productID: favoriteList[index].docId.toString());
                                   } ,
-                                  child: Icon(Icons.close)),
+                                  child: Icon(Icons.close,size: 15,)),
                               SizedBox(height: 15,),
-                              Text("\$${favoriteList[index].productPrice.toString()}")
+                              Text(
+                                "\$${productTotal.toStringAsFixed(2)}",
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
+                              ),
                             ],
                           ),
                         );
@@ -155,7 +231,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 trailing: Row(
                                   mainAxisSize: .min,
                                   children: [
-                                    Text("\$13.97"),
+                                    Text("\$${calculateTotalCost(favoriteList).toStringAsFixed(2)}"),
                                     Icon(Icons.arrow_forward_ios_sharp)
                                   ],
                                 ),

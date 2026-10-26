@@ -69,6 +69,44 @@ class ProductService {
         .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
         .toList());
   }
+  ///Get Exclusive Product
+  Stream<List<ProductModel>> getExclusiveProduct(){
+    return FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .where("exclusiveOffer", isEqualTo: true)
+        .snapshots()
+        .map((ProductList) => ProductList.docs
+        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .toList());
+  }
+  ///Mark Product
+  Future<void> markExclusiveOffer(String docId, bool value) async {
+    await FirebaseFirestore.instance
+        .collection("Products")
+        .doc(docId)
+        .update({
+      "exclusiveOffer": value,
+    });
+  }
+  ///Get Best Selling Product
+  Stream<List<ProductModel>> getBestSellingProduct(){
+    return FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .where("bestSelling", isEqualTo: true)
+        .snapshots()
+        .map((ProductList) => ProductList.docs
+        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .toList());
+  }
+  ///Mark Product
+  Future<void> markBestProduct(String docId, bool value) async {
+    await FirebaseFirestore.instance
+        .collection("Products")
+        .doc(docId)
+        .update({
+      "bestSelling": value,
+    });
+  }
   ///Get Products By Category ID
   Stream<List<ProductModel>> getProductsByCategoryID(String categoryID){
     return FirebaseFirestore.instance
@@ -108,5 +146,35 @@ class ProductService {
         .collection(ProductCollection)
         .doc(productID)
         .update({"cart": FieldValue.arrayRemove([userID])});
+  }
+  ///Get Favorite Products
+  Stream<List<ProductModel>> getFavoriteProducts(String userID){
+    return FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .where("favorite", arrayContains: userID)
+        .snapshots()
+        .map((ProductList) => ProductList.docs
+        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .toList());
+  }
+  ///Add to favorite
+  Future addToFavorite({
+    required String userID,
+    required String productID,
+})async{
+    return await FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .doc(productID)
+        .update({"favorite": FieldValue.arrayUnion([userID])});
+  }
+  ///Remove From Favorite
+  Future removeFromFavorite({
+    required String userID,
+    required String productID,
+})async{
+    return await FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .doc(productID)
+        .update({"favorite": FieldValue.arrayRemove([userID])});
   }
 }
