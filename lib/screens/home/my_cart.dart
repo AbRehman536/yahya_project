@@ -61,11 +61,19 @@ class _MyCartScreenState extends State<MyCartScreen> {
         ),
       ),
       body:
-      StreamProvider.value(
+      StreamProvider<List<ProductModel>>.value(
           value: ProductService().getMyCartProducts("101"),
-          initialData: [ProductModel()],
+          initialData: const [],
           builder: (context, child){
             List<ProductModel> favoriteList = context.watch<List<ProductModel>>();
+            if (favoriteList.isEmpty) {
+              return const Center(
+                child: Text(
+                  "Your cart is empty",
+                  style: TextStyle(fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
+                ),
+              );
+            }
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -77,23 +85,26 @@ class _MyCartScreenState extends State<MyCartScreen> {
                         final product = favoriteList[index];
                         final quantity = getQuantity(product);
                         final productTotal = (product.productPrice ?? 0) * quantity ;
+                        final String img = product.productImage ?? '';
                         return ListTile(
-                          leading:  favoriteList[index].productImage!.startsWith('http')
+                          leading: (img.startsWith('http://') || img.startsWith('https://'))
                               ? Image.network(
-                            favoriteList[index].productImage.toString(),
+                            img,
                             width: 40,
                             height: 50,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) =>
                             const Icon(Icons.image_not_supported, size: 50),
                           )
-                              : Image.asset(
-                            favoriteList[index].productImage.toString(),
-                            width: 40,
-                            height: 40,
-                            errorBuilder: (context, error, stackTrace) =>
-                            const Icon(Icons.image, size: 50),
-                          ),
+                              : (img.isNotEmpty
+                                  ? Image.asset(
+                                img,
+                                width: 40,
+                                height: 40,
+                                errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.image, size: 50),
+                              )
+                                  : const Icon(Icons.image, size: 40)),
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

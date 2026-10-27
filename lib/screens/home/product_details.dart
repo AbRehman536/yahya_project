@@ -17,6 +17,18 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool isShow = false;
   int quantity = 1;
+  late bool isFavorite;
+  late bool isBestSelling;
+  late bool isExclusiveOffer;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.model.favorite?.contains("101") ?? false;
+    isBestSelling = widget.model.bestSelling ?? false;
+    isExclusiveOffer = widget.model.exclusiveOffer ?? false;
+  }
+
 
   void _incrementProduct() {
     setState(() {
@@ -119,20 +131,46 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   "${widget.model.productWeight}, Price",
                   style: TextStyle(color: AppColors.greyColor),
                 ),
-                trailing:
-                IconButton(onPressed: ()async{
-                  if(widget.model.favorite!.contains("101")){
-                    await ProductService().removeFromFavorite(
-                        userID: "101",
-                        productID: widget.model.docId.toString());
-                  }
-                  else{
-                    await ProductService().addToFavorite(
-                        userID: "101",
-                        productID: widget.model.docId.toString());
-                  }
-                }, icon:
-                Icon(widget.model.favorite!.contains("101") ? Icons.favorite : Icons.favorite_border,),)
+                trailing: IconButton(
+                  onPressed: () async {
+                    final String userId = "101";
+                    final String? docId = widget.model.docId;
+                    if (docId == null || docId.isEmpty) return;
+
+                    final bool previousStatus = isFavorite;
+                    setState(() {
+                      isFavorite = !isFavorite;
+                    });
+
+                    final messenger = ScaffoldMessenger.of(context);
+                    try {
+                      if (previousStatus) {
+                        await ProductService().removeFromFavorite(
+                          userID: userId,
+                          productID: docId,
+                        );
+                      } else {
+                        await ProductService().addToFavorite(
+                          userID: userId,
+                          productID: docId,
+                        );
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        setState(() {
+                          isFavorite = previousStatus;
+                        });
+                        messenger.showSnackBar(
+                          SnackBar(content: Text("Error updating favorite: $e")),
+                        );
+                      }
+                    }
+                  },
+                  icon: Icon(
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavorite ? Colors.red : null,
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -277,26 +315,39 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
               const SizedBox(height: 10),
               Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Checkbox(
-                    value: widget.model.bestSelling ?? false,
-                    onChanged: (val) async {
-                      await ProductService().markBestProduct(
-                        widget.model.docId.toString(),
-                        val ?? false,
-                      );
-                    },
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: isBestSelling,
+                          onChanged: (val)async{
+                            final newValue = val ?? false;
+                            setState(() {
+                              isBestSelling = newValue;
+                            });
+                            await ProductService().markBestSellingProduct(
+                                widget.model.docId.toString(),
+                                newValue);
+                          }),
+                      const Text("Best Selling"),
+                    ],
                   ),
-
-                  Checkbox(
-                    value: widget.model.exclusiveOffer ?? false,
-                    onChanged: (val) async {
-                      await ProductService().markExclusiveOffer(
-                        widget.model.docId.toString(),
-                        val ?? false,
-                      );
-                    },
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: isExclusiveOffer,
+                          onChanged: (val)async{
+                            final newValue = val ?? false;
+                            setState(() {
+                              isExclusiveOffer = newValue;
+                            });
+                            await ProductService().markExclusiveProduct(
+                                widget.model.docId.toString(),
+                                newValue);
+                          }),
+                      const Text("Exclusive Offer"),
+                    ],
                   ),
                 ],
               ),

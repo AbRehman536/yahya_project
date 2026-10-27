@@ -28,6 +28,8 @@ class _CreateProductState extends State<CreateProduct> {
   CategoryModel? selectedCategory;
   XFile? selectedImage;
   bool isLoading = false;
+  bool isExclusiveOffer = false;
+  bool isBestSelling = false;
 
   void _showImagePickerOption(BuildContext context) {
     showModalBottomSheet(
@@ -192,6 +194,36 @@ class _CreateProductState extends State<CreateProduct> {
                     selectedCategory = value;
                   });
                   }),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: isBestSelling,
+                          onChanged: (val){
+                            setState(() {
+                              isBestSelling = val ?? false;
+                            });
+                          }),
+                      const Text("Best Selling")
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: isExclusiveOffer,
+                          onChanged: (val){
+                            setState(() {
+                              isExclusiveOffer = val ?? false;
+                            });
+                          }),
+                      const Text("Exclusive Offer")
+                    ],
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -219,9 +251,9 @@ class _CreateProductState extends State<CreateProduct> {
                               productNutrition: int.tryParse(nutritionController.text) ?? 0,
                               productPrice: double.tryParse(priceController.text) ?? 0.0,
                               productDetails: detailsController.text,
+                              exclusiveOffer: isExclusiveOffer,
+                              bestSelling: isBestSelling,
                               productStock: true,
-                              exclusiveOffer: false,
-                              bestSelling: false,
                               createdAt: DateTime.now().millisecondsSinceEpoch,
                             ),
                           );

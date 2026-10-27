@@ -120,6 +120,26 @@ class _SignupScreenState extends State<SignupScreen> {
             Align(
                 alignment: Alignment.center,
                 child: CustomButton(buttonLabel: "Sign Up", onPressed: ()async {
+                  if(nameController.text.isEmpty){
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text("Please Enter Your Name")));
+                        return;
+                  }
+                  if(emailController.text.isEmpty){
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text("Please Enter Your Email")));
+                        return;
+                  }
+                  if(passwordController.text.isEmpty){
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text("Please Enter Your Password")));
+                        return;
+                  }
+                  if(passwordController.text.length < 8){
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text("Password must be more than 8 digits")));
+                        return;
+                  }
                   try{
                     isLoading = true;
                     setState(() {});

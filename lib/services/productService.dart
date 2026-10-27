@@ -45,9 +45,55 @@ class ProductService {
         .collection(ProductCollection)
         //.orderBy("createdAt" , descending: false )
         .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
         .toList());
+  }
+  ///Get Exclusive Offer Product
+  Stream<List<ProductModel>> getExclusiveOfferProduct(){
+    return FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .where("exclusiveOffer", isEqualTo: true)
+        .snapshots()
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
+        .toList());
+  }
+  ///Mark Product Exclusive
+  Future markExclusiveProduct(String docId, bool value)async{
+    return await FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .doc(docId)
+        .update({"exclusiveOffer" : value});
+  }
+  ///Get Best Selling Product
+  Stream<List<ProductModel>> getBestSellingProduct(){
+    return FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .where("bestSelling", isEqualTo: true)
+        .snapshots()
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
+        .toList());
+  }
+  ///Mark Product Best Selling
+  Future markBestSellingProduct(String productID, bool value)async{
+    return await FirebaseFirestore.instance
+        .collection(ProductCollection)
+        .doc(productID)
+        .update({"bestSelling" : value});
   }
   ///Get In Stock Product
   Stream<List<ProductModel>> getInStockProduct(){
@@ -55,8 +101,12 @@ class ProductService {
         .collection(ProductCollection)
         .where("productStock", isEqualTo: true)
         .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
         .toList());
   }
   ///Get Out of Stock Product
@@ -65,47 +115,13 @@ class ProductService {
         .collection(ProductCollection)
         .where("productStock", isEqualTo: false)
         .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
         .toList());
-  }
-  ///Get Exclusive Product
-  Stream<List<ProductModel>> getExclusiveProduct(){
-    return FirebaseFirestore.instance
-        .collection(ProductCollection)
-        .where("exclusiveOffer", isEqualTo: true)
-        .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
-        .toList());
-  }
-  ///Mark Product
-  Future<void> markExclusiveOffer(String docId, bool value) async {
-    await FirebaseFirestore.instance
-        .collection("Products")
-        .doc(docId)
-        .update({
-      "exclusiveOffer": value,
-    });
-  }
-  ///Get Best Selling Product
-  Stream<List<ProductModel>> getBestSellingProduct(){
-    return FirebaseFirestore.instance
-        .collection(ProductCollection)
-        .where("bestSelling", isEqualTo: true)
-        .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
-        .toList());
-  }
-  ///Mark Product
-  Future<void> markBestProduct(String docId, bool value) async {
-    await FirebaseFirestore.instance
-        .collection("Products")
-        .doc(docId)
-        .update({
-      "bestSelling": value,
-    });
   }
   ///Get Products By Category ID
   Stream<List<ProductModel>> getProductsByCategoryID(String categoryID){
@@ -113,8 +129,12 @@ class ProductService {
         .collection(ProductCollection)
         .where("categoryID", isEqualTo: categoryID)
         .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
         .toList());
   }
   ///Get My Cart Products
@@ -123,8 +143,12 @@ class ProductService {
         .collection(ProductCollection)
         .where("cart", arrayContains: userID)
         .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
         .toList());
   }
   ///Add to Cart
@@ -153,8 +177,12 @@ class ProductService {
         .collection(ProductCollection)
         .where("favorite", arrayContains: userID)
         .snapshots()
-        .map((ProductList) => ProductList.docs
-        .map((ProductJson) => ProductModel.fromJson(ProductJson.data()))
+        .map((productList) => productList.docs
+        .map((doc) {
+          final data = doc.data();
+          data['docID'] = data['docID'] ?? doc.id;
+          return ProductModel.fromJson(data);
+        })
         .toList());
   }
   ///Add to favorite

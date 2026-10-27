@@ -14,8 +14,8 @@ class ProductModel {
   final String? productDetails;
   final int? productNutrition;
   final bool? productStock;
-  final bool? bestSelling;
   final bool? exclusiveOffer;
+  final bool? bestSelling;
   final List<dynamic>? cart;
   final List<dynamic>? favorite;
   final int? createdAt;
@@ -31,24 +31,24 @@ class ProductModel {
     this.productNutrition,
     this.cart,
     this.favorite,
-    this.bestSelling,
-    this.exclusiveOffer,
     this.productStock,
+    this.exclusiveOffer,
+    this.bestSelling,
     this.createdAt,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-    docId: json["docID"],
+    docId: json["docID"] ?? json["docId"],
     categoryID: json["categoryID"],
     productImage: json["productImage"],
     productName: json["productName"],
     productWeight: json["productWeight"],
-    productPrice: json["productPrice"],
+    productPrice: json["productPrice"] != null ? (json["productPrice"] as num).toDouble() : null,
     productDetails: json["productDetails"],
     productNutrition: json["productNutrition"],
     productStock: json["productStock"],
-    bestSelling: json["bestSelling"],
     exclusiveOffer: json["exclusiveOffer"],
+    bestSelling: json["bestSelling"],
     cart: json["cart"] == null ? [] : List<dynamic>.from(json["cart"]!.map((x) => x)),
     favorite: json["favorite"] == null ? [] : List<dynamic>.from(json["favorite"]!.map((x) => x)),
     createdAt: json["createdAT"],
@@ -64,8 +64,8 @@ class ProductModel {
     "productDetails": productDetails,
     "productNutrition": productNutrition,
     "productStock": productStock,
-    "bestSelling": bestSelling,
     "exclusiveOffer": exclusiveOffer,
+    "bestSelling": bestSelling,
     "cart": cart == null ? [] : List<dynamic>.from(cart!.map((x) => x)),
     "favorite": favorite == null ? [] : List<dynamic>.from(favorite!.map((x) => x)),
     "createdAT": createdAt,
