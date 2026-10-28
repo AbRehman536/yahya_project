@@ -49,5 +49,15 @@ class CategoryService {
         .map((categoryJson) => CategoryModel.fromJson(categoryJson.data()))
     .toList());
   }
-
+  ///Search Category
+  Stream<List<CategoryModel>> searchCategory(String categoryName){
+    return FirebaseFirestore.instance
+        .collection(categoryCollection)
+        .snapshots()
+        .map((categoryList) => categoryList.docs
+        .map((categoryJson) => CategoryModel.fromJson(categoryJson.data()))
+        .where((category) => category.categoryName!.toLowerCase()
+          .contains(categoryName.toLowerCase()))
+        .toList());
+  }
 }

@@ -17,6 +17,8 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  TextEditingController searchController = TextEditingController();
+  String searchText = "";
   List<CategoryModel> categoriesList = [
     CategoryModel(
       categoryImage: AppAssets.bananaImage,
@@ -33,6 +35,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   ];
   @override
+  void dispose(){
+    super.dispose();
+    searchController.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -45,11 +52,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           children: [
             TextField(
+              controller: searchController,
+              onChanged: (value){
+                setState(() {
+                  searchText = value.trim();
+                });
+              },
               decoration: InputDecoration(
                 hint: Text("Search store"),
                 fillColor: Color(0xffF2F3F2),
                 filled: true,
                 prefixIcon : Icon(Icons.search) ,
+                suffixIcon: searchController.text.isNotEmpty
+                ? IconButton(onPressed: (){
+                  searchController.clear();
+                  setState(() {
+                    searchText = "";
+                  });
+                }, icon: Icon(Icons.close))
+                :null,
                 border: OutlineInputBorder(
                   borderRadius: .circular(15),
                   borderSide: .none,
@@ -58,8 +79,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ),
             SizedBox(height: 20),
 
-            StreamProvider.value(value: CategoryService().getAllCategory(),
-              initialData: [CategoryModel()],
+            StreamProvider<List<CategoryModel>>.value(
+              value:
+              searchText.isEmpty ?
+              CategoryService().getAllCategory()
+              :CategoryService().searchCategory(searchText),
+              initialData: [],
               builder: (context , child){
                 List<CategoryModel> categoryList = context.watch<List<CategoryModel>>();
                 return Expanded(
