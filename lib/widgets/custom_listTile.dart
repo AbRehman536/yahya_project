@@ -9,17 +9,19 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return ListTile(
-      //dense: true,
-      contentPadding: .zero,
+      contentPadding: EdgeInsets.zero,
       horizontalTitleGap: 5,
       leading: leading,
-      title: Text(title,style: GoogleFonts.poppins(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: Color(0xff272727)
-      ),),
-      //subtitle: Text("Subtitle"),
+      title: Text(
+        title,
+        style: GoogleFonts.poppins(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: isDark ? Colors.white70 : const Color(0xff272727),
+        ),
+      ),
       trailing: trailing,
     );
   }

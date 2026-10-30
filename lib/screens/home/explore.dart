@@ -42,7 +42,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+     // backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50),
         child: CustomAppbar(title: "Explore",leading: Text("")),

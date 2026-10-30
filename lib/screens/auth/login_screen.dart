@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yahya_project/models/UserModel.dart';
+import 'package:yahya_project/provider/user_provider.dart';
 import 'package:yahya_project/screens/auth/reset_password.dart';
 import 'package:yahya_project/screens/auth/signup_screen.dart';
 import 'package:yahya_project/screens/home/bottom_bar.dart';
 import 'package:yahya_project/screens/home/home_screen.dart';
 import 'package:yahya_project/services/authService.dart';
+import 'package:yahya_project/services/userService.dart';
 import 'package:yahya_project/utils/app_assets.dart';
 import 'package:yahya_project/utils/app_colors.dart';
 import 'package:yahya_project/widgets/custom_button.dart';
@@ -23,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: AppColors.secondaryColor,
       body: Padding(
@@ -100,8 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       await AuthService().loginUser(
                           email: emailController.text,
                           password: passwordController.text)
-                      .then((value){
-
+                      .then((value)async{
+                        UserModel userModel =
+                        await UserService().getUserByID(value.uid.toString());
+                        userProvider.setUser(userModel);
                         isLoading = false;
                         setState(() {});
                         if(value.emailVerified == true){

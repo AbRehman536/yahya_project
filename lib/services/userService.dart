@@ -31,11 +31,11 @@ class UserService {
   }
 
   ///Get User By ID
-  Stream<UserModel> getUserByID(String userID){
+  Future<UserModel> getUserByID(String userID){
     return FirebaseFirestore.instance
         .collection(UserCollection)
         .doc(userID)
-        .snapshots()
-        .map((userJson) => UserModel.fromJson(userJson.data()!));
+        .get()
+        .then((userJson) => UserModel.fromJson(userJson.data()!));
   }
 }

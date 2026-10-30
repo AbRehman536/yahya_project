@@ -30,14 +30,16 @@ class CustomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
      onTap: onTap,
       child: Container(
         width: 173,
         height: 320,
         decoration: BoxDecoration(
+          color: isDark ? const Color(0xff1e1e1e) : Colors.white,
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(width: 0.4, color: AppColors.greyColor),
+          border: Border.all(width: 0.4, color: isDark ? Colors.grey.shade700 : AppColors.greyColor),
         ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -67,7 +69,7 @@ class CustomContainer extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: AppColors.darkColor,
+                  color: isDark ? Colors.white : AppColors.darkColor,
                   fontWeight: FontWeight.w900,
                   fontSize: 16,
                 ),
@@ -76,7 +78,7 @@ class CustomContainer extends StatelessWidget {
                 "$subTitle, Price ",
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  color: AppColors.greyColor,
+                  color: isDark ? Colors.grey[400] : AppColors.greyColor,
                   fontWeight: FontWeight.w300,
                   fontSize: 14,
                 ),
@@ -88,7 +90,7 @@ class CustomContainer extends StatelessWidget {
                   Text(
                     "\$$price",
                     style: TextStyle(
-                      color: AppColors.darkColor,
+                      color: isDark ? Colors.white : AppColors.darkColor,
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                     ),
@@ -151,7 +153,7 @@ class CustomContainer extends StatelessWidget {
                 ],
               ),
               if(stock == false)
-                Text("Out of Stock")
+                Text("Out of Stock", style: TextStyle(color: Colors.red))
             ],
           ),
         ),

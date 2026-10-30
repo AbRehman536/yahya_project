@@ -1,38 +1,30 @@
-
-
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yahya_project/extra/app_bar/app_bar.dart';
-import 'package:yahya_project/extra/app_bar/tab_bar.dart';
-import 'package:yahya_project/extra/date_time_picker.dart';
-import 'package:yahya_project/extra/menu.dart';
-import 'package:yahya_project/extra/pageView.dart';
-import 'package:yahya_project/extra/settings_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:yahya_project/firebase_options.dart';
-import 'package:yahya_project/screens/admin/create_product.dart';
+import 'package:yahya_project/provider/theme_provider.dart';
+import 'package:yahya_project/provider/user_provider.dart';
 import 'package:yahya_project/screens/auth/login_screen.dart';
-import 'package:yahya_project/screens/home/beverages.dart';
 import 'package:yahya_project/screens/home/bottom_bar.dart';
-import 'package:yahya_project/screens/home/explore.dart';
-import 'package:yahya_project/screens/home/favorite.dart';
-import 'package:yahya_project/screens/home/filter.dart';
-import 'package:yahya_project/screens/home/home_screen.dart';
-import 'package:yahya_project/screens/home/my_cart.dart';
-import 'package:yahya_project/screens/profile/profile_screen.dart';
-import 'package:yahya_project/screens/start_screens/on_boarding.dart';
-import 'package:yahya_project/screens/start_screens/splash_screen.dart';
+import 'package:yahya_project/utils/app_colors.dart';
 
-void main()async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
     DevicePreview(
       enabled: true,
-      builder: (context) => const MyApp(),
+      builder: (context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => UserProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }
@@ -42,20 +34,39 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return ScreenUtilInit(
-      designSize: const Size(375,812),
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child){
-        return  MaterialApp(
+      builder: (context, child) {
+        return MaterialApp(
           title: 'Online Grocery App',
           debugShowCheckedModeBanner: false,
-          // Device Preview configuration
-          useInheritedMediaQuery: true,
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
 
-          home: BottomBarScreen(),
+          themeMode: themeProvider.themeMode,
+          theme: ThemeData(
+            brightness: Brightness.light,
+            primaryColor: AppColors.primaryColor,
+            scaffoldBackgroundColor: Colors.white,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+            ),
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primaryColor: AppColors.primaryColor,
+            scaffoldBackgroundColor: const Color(0xff121212),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xff1e1e1e),
+              foregroundColor: Colors.white,
+            ),
+          ),
+
+          home: const LoginScreen(),
         );
       },
     );

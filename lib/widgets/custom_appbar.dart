@@ -8,18 +8,22 @@ class CustomAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return AppBar(
-      backgroundColor: Color(0xffFFFFFF),
+      backgroundColor: isDark ? const Color(0xff1e1e1e) : const Color(0xffFFFFFF),
       elevation: 0,
       leading: leading,
-      title: Text(title.toString(),style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w900,
-        color: Color(0xff181725)
-      ),),
+      title: Text(
+        title.toString(),
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w900,
+          color: isDark ? Colors.white : const Color(0xff181725),
+        ),
+      ),
       centerTitle: true,
       actions: [
-        ?icon
+        if (icon != null) icon!,
       ],
     );
   }
